@@ -1,4 +1,4 @@
-module ViewParts where
+module ViewParts (..) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -9,6 +9,7 @@ import Model exposing (..)
 
 type Action
   = UpdateName String
+
 
 appFooter : Address Action -> Model -> Html
 appFooter address model =
@@ -26,9 +27,14 @@ appFooter address model =
             []
             [ text "entirely in Elm!" ]
         ]
-    , img
-        [ src "/assets/github.png" ]
-        []
+    , a
+        [ href "https://github.com/GabiGrin/ElmFiddle.io"
+        , target "_blank"
+        ]
+        [ img
+            [ src "/assets/github.png" ]
+            []
+        ]
     ]
 
 
@@ -56,7 +62,12 @@ appHeader address model =
         [ input
             [ id
                 "snippet-name"
-            , class (if model.focusName then "blink" else "")
+            , class
+                (if model.focusName then
+                  "blink"
+                 else
+                  ""
+                )
             , value
                 model.name
             , on "input" targetValue (Signal.message address << UpdateName)
