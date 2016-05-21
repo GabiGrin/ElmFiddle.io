@@ -1,0 +1,19 @@
+Elm.ResultView = Elm.ResultView || {};
+Elm.ResultView.make = function (_elm) {
+   "use strict";
+   _elm.ResultView = _elm.ResultView || {};
+   if (_elm.ResultView.values) return _elm.ResultView.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var Loading = {ctor: "Loading"};
+   var CompilationResult = function (a) {    return {ctor: "CompilationResult",_0: a};};
+   var FirstUse = {ctor: "FirstUse"};
+   var init = FirstUse;
+   return _elm.ResultView.values = {_op: _op,FirstUse: FirstUse,CompilationResult: CompilationResult,Loading: Loading,init: init};
+};

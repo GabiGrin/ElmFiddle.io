@@ -1,0 +1,18 @@
+Elm.Examples = Elm.Examples || {};
+Elm.Examples.HelloWorld = Elm.Examples.HelloWorld || {};
+Elm.Examples.HelloWorld.make = function (_elm) {
+   "use strict";
+   _elm.Examples = _elm.Examples || {};
+   _elm.Examples.HelloWorld = _elm.Examples.HelloWorld || {};
+   if (_elm.Examples.HelloWorld.values) return _elm.Examples.HelloWorld.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var code = "\nimport Html exposing (text, Html)\n\nmain: Html\nmain =\n  text \"Welcome to Elm Fiddle!\"\n";
+   return _elm.Examples.HelloWorld.values = {_op: _op,code: code};
+};

@@ -1,0 +1,113 @@
+-- module Main (..) where
+--
+-- import Http.Server exposing (..)
+-- import Http.Request exposing (emptyReq, Request, Method(..), parseQuery, getQueryField, Form)
+-- import Http.Response exposing (emptyRes, Response)
+-- import Http.Response.Write exposing (writeHtml, writeJson, writeElm, writeFile, writeNode)
+-- import Task exposing (..)
+-- import Signal exposing (..)
+-- import Json.Encode as Json
+-- import Json.Decode as Decode exposing ((:=))
+-- import Json.Encode as Encode
+-- import String as String
+-- import Regex as Regex
+-- import Service
+-- import Router exposing (..)
+-- import Dict
+--
+--
+-- getCodeRouteHandler ( req, res ) params =
+--   let
+--     id =
+--       Maybe.withDefault "" (Dict.get "id" params)
+--   in
+--     writeHtml ("id" ++ id) res
+--
+--
+-- defaultGetHandler (req,res) =
+--   writeHtml "404" res
+--
+-- getRouter : Router ( Request, Response ) (Task x ())
+-- getRouter =
+--   {  parts =
+--        [{  route = Router.Path "/api/v1/code/:id"
+--        , handler = getCodeRouteHandler
+--        }]
+--     , default = defaultGetHandler
+--   }
+--
+-- server : Mailbox ( Request, Response )
+-- server =
+--   mailbox ( emptyReq, emptyRes )
+--
+--
+-- route : ( Request, Response ) -> Task x ()
+-- route ( req, res ) =
+--   case req.method of
+--     GET ->
+--       case req.url of
+--         "/" ->
+--           writeFile "../frontend/index.html" res
+--
+--         url ->
+--           let
+--             possibleIdForGet =
+--               String.dropLeft 1 url
+--
+--             possibleIdForLoad =
+--               String.dropLeft 4 possibleIdForGet
+--
+--             pattern =
+--               Regex.regex "^c[^\\s-]{8,}$"
+--
+--             isGetCode =
+--               Regex.contains pattern possibleIdForGet
+--
+--             isLoadCode =
+--               Regex.contains pattern possibleIdForLoad
+--           in
+--             if isGetCode then
+--               Service.getCode possibleIdForGet
+--                 `andThen` (\c ->
+--                             writeJson (Encode.string c) res
+--                           )
+--             else if isLoadCode then
+--               writeFile "../frontend/index.html" res
+--             else
+--               writeFile ("../frontend" ++ url) res
+--
+--     POST ->
+--       case req.url of
+--         "/save" ->
+--           Http.Request.setBody req
+--             `andThen` (\req -> Service.saveCode req.body)
+--             `andThen` (\key -> writeJson (Encode.string key) res)
+--
+--         "/compile" ->
+--           Http.Request.setBody req
+--             `andThen` (\req -> Service.compileCode req.body)
+--             `andThen` (\compiled -> writeJson (Encode.string compiled) res)
+--
+--         _ ->
+--           res
+--             |> writeHtml ("Posted!" ++ req.body)
+--
+--     NOOP ->
+--       succeed ()
+--
+--     _ ->
+--       res
+--         |> writeJson (Json.string "unknown method!")
+--
+--
+-- port reply : Signal (Task x ())
+-- port reply =
+--   Signal.map route (dropRepeats server.signal)
+--
+--
+-- port bob : Task x Server
+-- port bob =
+--   createServerAndListen
+--     server.address
+--     8080
+--     "Listening on 8080"

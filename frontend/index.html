@@ -1,0 +1,354 @@
+<html>
+<head>
+  <script type="text/javascript" src="/dist/Main.js"></script>
+  <script type="text/javascript" src="/bower_components/codemirror/lib/codemirror.js"></script>
+  <title>Elm Fiddle</title>
+  <meta name="description" content="Share Elm snippets">
+  <link rel="icon"
+  type="image/png"
+  href="/assets/favicon.png">
+  <link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="/bower_components/codemirror/theme/elegant.css">
+  <link rel="stylesheet" href="/assets/firacode/FiraCode-Regular.css">
+  <script src="/bower_components/codemirror/mode/elm/elm.js"></script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75277439-1', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+
+  <style>
+  body {
+    font-size: 14px;
+    background: #EBEBEB;
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+  }
+
+  .CodeMirror {
+    font-family: "FiraCode-Regular";
+  }
+
+  .CodeMirror {
+    text-rendering: optimizeLegibility;
+    -webkit-font-variant-ligatures: common-ligatures;
+    font-variant-ligatures: common-ligatures;
+  }
+
+  header {
+    background: #003459;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+  }
+
+  #logo {
+    color: white;
+    font-weight: 100;
+    font-size: 36px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;
+    /*flex-grow: 0;*/
+  }
+
+  #logo .elm {
+    font-weight: 300;
+    letter-spacing: 2.7px;
+  }
+
+  #logo .fiddle {
+    letter-spacing: 2.7px;
+  }
+
+  #logo .i {
+    color: #F62670;
+  }
+
+  #logo .o {
+    color: #FF8144;
+  }
+
+  #snippet-container {
+    /*flex-grow: 1;*/
+    width: 320px;
+    text-align: center;
+  }
+
+  .loading-container {
+    font-size: 20px;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loading {
+    width: 100px;
+  }
+
+  codemirror {
+    display: block;
+    background: white;
+  }
+
+  .CodeMirror {
+    height: calc(100% - 104px);
+  }
+
+  .main-container {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+    z-index: 0;
+    /*flex-shrink: 0;*/
+  }
+
+  header, footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  footer {
+    color: #313131;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 1.05px;
+  }
+
+  footer img {
+    width: 21px;
+    height: 20px;
+    opacity: 0.5;
+  }
+
+  .main-container .cm-container,
+  .main-container .result-container {
+    flex: 0 0 50%;
+    background: white;
+    position: relative;
+  }
+
+  .result-container {
+    border-left: 4px solid #ebebeb;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  #main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .btn {
+    background: #F62670;
+    color: white;
+    padding: 5px;
+    border: 0;
+    outline: none;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    font-family: inherit;
+    padding: 5px 10px;
+    font-size: inherit;
+    width: 75px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .3s ease-out;
+  }
+
+  .btn.hidden {
+    transform: translateY(-100%);
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .btn.run {
+    background: #FF8144;
+  }
+
+  .btn:disabled {
+    opacity: 1;
+    cursor: default;
+  }
+
+  .blink {
+    animation: blink-animation 0.3s steps(5, start) 5;
+  }
+
+  @keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  #snippet-name {
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    outline: none;
+    color: white;
+    font-family: inherit;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  #first-use {
+    padding: 30px;
+    color: #003459;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #first-use p {
+    margin: 0 0 10px 0;
+    /*font-weight: 300;*/
+  }
+
+  #first-use .title {
+    font-size: 48px;
+    text-align: center;
+  }
+
+  #first-use .sub-title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  #first-use .examples {
+    list-style: none;
+    color: #FF8144;
+    font-size: 20px;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+
+  #first-use .examples  a {
+    color: #FF8144;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #compiled-code {
+    width: 100%;
+    height: 80%;
+    border: none;
+  }
+
+  #error-container {
+    padding: 10px 15px;
+  }
+
+  #error-container .error-title {
+    color: #D1192F;
+    font-size: 18px;
+    margin-top: 5px;
+  }
+
+  #error-container .error-content {
+    font-size: 14px;
+    color: #272822;
+    white-space: pre;
+  }
+
+  #save-status {
+    background: #24E985;
+    color: #313131;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 5;
+    padding: 10px 15px;
+    top: 0;
+    box-shadow: 0 2px 3px -1px rgba(0,0,0, 0.5);
+    transition: transform .3s ease-out;
+  }
+
+  #save-status.hidden {
+    transform: translate(-50%, -100%);
+  }
+
+  #save-status a {
+    color: #003459;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 5px;
+  }
+
+  #save-status a:hover {
+    color: #0077CC;
+  }
+
+  #save-status h2 {
+    font-size: 20px;
+    letter-spacing: 1.9px;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  #save-status .bottom-row {
+    font-size: 16px;
+    letter-spacing: 1.27px;
+    font-weight: 300;
+  }
+
+  #save-status .bottom-row a {
+    font-weight: 500;
+  }
+
+  #save-status .divider {
+    margin:0 20px 0 10px;
+  }
+
+  </style>
+
+</head>
+<body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P4JXFK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P4JXFK');</script>
+    <!-- End Google Tag Manager -->
+
+    <div id="app"></div>
+
+  </body>
+  <script>
+    // get an empty <div>
+    var div = document.getElementById('app');
+
+    var app = Elm.embed(Elm.Main, div, {});
+
+  </script>
+
+
+  </html>

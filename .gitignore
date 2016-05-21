@@ -1,0 +1,8 @@
+/dist
+/frontend/dist
+node_modules
+.DS_Store
+/elm-stuff
+/tmp
+/node-elm-compiler/tmp*
+/ldb-storage

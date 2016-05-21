@@ -1,0 +1,10 @@
+**/elm-stuff
+**/elm.js
+**/index.html
+**/elm.html
+**/node_modules
+**/npm-debug.log
+**/elmclient.log
+test/build
+examples/*.html
+.*.swp

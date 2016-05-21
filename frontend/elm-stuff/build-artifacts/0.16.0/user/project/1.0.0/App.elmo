@@ -1,0 +1,39 @@
+Elm.App = Elm.App || {};
+Elm.App.make = function (_elm) {
+   "use strict";
+   _elm.App = _elm.App || {};
+   if (_elm.App.values) return _elm.App.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var Model = F6(function (a,b,c,d,e,f) {    return {code: a,name: b,result: c,codeState: d,loading: e,saveStatus: f};});
+   var UpdateCompilationResult = function (a) {    return {ctor: "UpdateCompilationResult",_0: a};};
+   var Save = {ctor: "Save"};
+   var Compile = {ctor: "Compile"};
+   var LoadCode = function (a) {    return {ctor: "LoadCode",_0: a};};
+   var Saved = function (a) {    return {ctor: "Saved",_0: a};};
+   var Unsaved = {ctor: "Unsaved"};
+   var Dirty = {ctor: "Dirty"};
+   var Pristine = {ctor: "Pristine"};
+   var Loading = {ctor: "Loading"};
+   var CompilationResult = {ctor: "CompilationResult"};
+   var FirstUse = {ctor: "FirstUse"};
+   return _elm.App.values = {_op: _op
+                            ,FirstUse: FirstUse
+                            ,CompilationResult: CompilationResult
+                            ,Loading: Loading
+                            ,Pristine: Pristine
+                            ,Dirty: Dirty
+                            ,Unsaved: Unsaved
+                            ,Saved: Saved
+                            ,LoadCode: LoadCode
+                            ,Compile: Compile
+                            ,Save: Save
+                            ,UpdateCompilationResult: UpdateCompilationResult
+                            ,Model: Model};
+};
