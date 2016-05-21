@@ -11,3 +11,6 @@ My goals were:
 - Deploy static files to a CDN to reduce server load
 - Have some kind of monitoring service
 - Have nice access to logBase
+
+
+TBC
