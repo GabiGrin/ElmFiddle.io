@@ -55,7 +55,7 @@ firstUse address =
         --         [ onClick address (LoadExample Examples.Snake.code)]
         --         [ text "Snake game" ]
         --     ]
-        -- ]
+        ]
     ]
 
 
