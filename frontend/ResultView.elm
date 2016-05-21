@@ -49,13 +49,13 @@ firstUse address =
                 [ onClick address (LoadExample Examples.TodoList.code)]
                 [ text "To-do list" ]
             ]
-        , li
-            []
-            [ a
-                [ onClick address (LoadExample Examples.Snake.code)]
-                [ text "Snake game" ]
-            ]
-        ]
+        -- , li
+        --     []
+        --     [ a
+        --         [ onClick address (LoadExample Examples.Snake.code)]
+        --         [ text "Snake game" ]
+        --     ]
+        -- ]
     ]
 
 
