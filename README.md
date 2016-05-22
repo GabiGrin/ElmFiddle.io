@@ -12,7 +12,7 @@ Now hack away and the server/client will restart on any change you made.
 
 Note: If you get an error on the opened page, please retry and it should work. Couldn't find the source of this bug yet.
 
-## How it works?
+## How does it work?
 
 The browser part is easy, basic Elm StartApp app. I had to write [an Elm wrapper for CodeMirror](https://github.com/gabigrin/elm-codemirror), which has a nice example of how to interact with complex existing libraries that are not worth rewriting in Elm.
 
