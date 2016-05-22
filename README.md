@@ -1,4 +1,4 @@
-![ElmFiddle.io](logo.png)
+[![ElmFiddle.io](logo.png)](http://www.elmfiddle.io)
 
 Elm snippet sharing site made almost entirely using Elm.
 
